@@ -87,13 +87,13 @@ public class ContactBook
     {
         Console.Clear();
 
-        if (allContacts.Count <= 0)
+        if (contacts.Count <= 0)
         {
             Console.WriteLine("No contacts found.");
         }
         else
         {
-            int indexCol = Math.Max("#".Length, allContacts.Count.ToString().Length);
+            int indexCol = Math.Max("#".Length, contacts.Count.ToString().Length);
             int fnameCol = Math.Max("First Name".Length, allContacts.Max(c => c.GetFName()?.Length ?? 0));
             int lnameCol = Math.Max("Last Name".Length, allContacts.Max(c => c.GetLName()?.Length ?? 0));
             int phoneCol = Math.Max("Phone".Length, allContacts.Max(c => c.GetPhone()?.Length ?? 0));
@@ -116,7 +116,7 @@ public class ContactBook
 
             for (int i = s; i < e; i++)
             {
-                Contact c = allContacts[i];
+                Contact c = contacts[i];
 
                 Console.WriteLine(""
                     + "{0, " + -indexCol + "} "
@@ -225,7 +225,12 @@ public class ContactBook
     }
     private void GotoPage()
     {
-        Console.WriteLine("Goto Page");
+        GotoPage(allContacts, ref page, size);
+    }
+
+    private void GotoPage(List<Contact> contacts, ref int page, int size)
+    {
+        page = GetInt("Enter page", 1, PageCount(contacts, size));
     }
 
     private void PageSize()
@@ -272,7 +277,24 @@ public class ContactBook
     {
         isExit = true;
     }
+    private int GetInt(string prompt, int min, int max)
+{
+    string options = $"{min}-{max}";
 
+    Console.Write(prompt + $" [{options}] ");
+    string answer = Console.ReadLine()!.ToUpper();
+
+    int value;
+
+    while (!int.TryParse(answer, out value) || value < min || value > max)
+    {
+        Console.WriteLine("ERROR: Invalid option. Please try again.");
+        Console.Write(prompt + $" [{options}] ");
+        answer = Console.ReadLine()!.ToUpper();
+    }
+
+    return value;
+    }
     private string GetOption(string prompt, string[] validOptions, string defaultOption)
     {
         string options = string.Join('/', validOptions);
