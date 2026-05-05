@@ -421,6 +421,13 @@ public class ContactBook
         Console.Write("Enter search term (Clear): ");
         string searchTerm = Console.ReadLine()!.ToLower();
 
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            filteredContacts = allContacts;
+            page = 1;
+            return;
+        }
+
         Console.WriteLine();
 
         if (Confirm("Do you want to search contacts?", YES))
@@ -443,7 +450,22 @@ public class ContactBook
 
     private void OrderContacts()
     {
-        Console.WriteLine("Order Contacts");
+        ContactComparer.SortType[] sortTypes = new ContactComparer.SortType[]
+        {
+            ContactComparer.SortType.FName,
+            ContactComparer.SortType.LName,
+            ContactComparer.SortType.Phone,
+            ContactComparer.SortType.Email
+        };
+
+        int index = GetInt("Sort contact by [0] First Name [1] Last Name [2] Phone [3] Email", 0, sortTypes.Length - 1);
+
+        ContactComparer ccp = new ContactComparer(sortTypes[index]);
+
+        allContacts.Sort(ccp);
+        filteredContacts.Sort(ccp);
+
+        page = 1;
     }
 
     private void DeduplicateContacts()
