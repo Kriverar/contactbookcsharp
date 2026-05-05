@@ -114,6 +114,7 @@ public static class ContactSeed
             new Contact("Ignacio", "Estevez", "303-555-1096", "iestevez@yahoo.com"),
             new Contact("Juliana", "Ferrer", "720-555-1097", "jferrer@hotmail.com"),
             new Contact("Karla", "Gomez", "719-555-1098", "kgomez@gmail.com"),
+            new Contact("Leonardo", "Hidalgo", "970-555-1099", "lhidalgo@outlook.com"),
             new Contact("Leonardo", "Hidalgo", "970-555-1099", "lhidalgo@outlook.com")
         };
 }
